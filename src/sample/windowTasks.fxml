@@ -9,7 +9,7 @@
 
 <StackPane fx:id="windowTasks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.WindowTasks">
    <children>
-      <Button fx:id="buttonNewTask" mnemonicParsing="false" prefHeight="31.0" prefWidth="99.0" text="Add task" StackPane.alignment="TOP_LEFT">
+      <Button fx:id="buttonNewTask" mnemonicParsing="false" onAction="#addTaskToTable" prefHeight="31.0" prefWidth="99.0" text="Add task" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
             <Insets left="30.0" top="60.0" />
          </StackPane.margin>
@@ -19,19 +19,19 @@
             <Insets bottom="60.0" right="30.0" />
          </StackPane.margin>
       </Button>
-      <TextArea maxHeight="70.0" maxWidth="620.0" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="TOP_LEFT">
+      <TextArea fx:id="textArea" maxHeight="70.0" maxWidth="620.0" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
             <Insets left="150.0" top="60.0" />
          </StackPane.margin></TextArea>
       <TableView fx:id="tableViewTask" editable="true" maxHeight="300.0" maxWidth="750.0" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn fx:id="TasksToDo" prefWidth="75.0" text="Tasks to do" />
+          <TableColumn fx:id="tasksToDo" onEditCommit="#cellTableEdit" prefWidth="75.0" text="Tasks to do" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="buttonDeleteTask" mnemonicParsing="false" prefHeight="31.0" prefWidth="99.0" text="Delete task" StackPane.alignment="TOP_LEFT">
+      <Button fx:id="buttonDeleteTask" mnemonicParsing="false" onAction="#deleteTaskFromTable" prefHeight="31.0" prefWidth="99.0" text="Delete task" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
             <Insets left="30.0" top="100.0" />
          </StackPane.margin>

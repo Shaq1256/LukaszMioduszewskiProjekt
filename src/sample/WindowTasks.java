@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -7,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -18,18 +23,52 @@ public class WindowTasks implements Initializable {
 
     Stage windowTask;
 
-    @FXML
-    Button buttonTaskExit;
+    @FXML Button buttonTaskExit, buttonNewTask, buttonDeleteTask;
     @FXML private TableView<Task> tableViewTask;
-    @FXML private TableColumn<Task, String> TasksToDo;
+    @FXML private TableColumn<Task, String> tasksToDo;
+    @FXML TextArea textArea;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tasksToDo.setCellValueFactory(new PropertyValueFactory<Task, String>("task"));
+        tableViewTask.setItems(getTask());
 
+        tableViewTask.setEditable(true);
+        tasksToDo.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
+    public void addTaskToTable() {
+        Task newTask = new Task(textArea.getText());
+        tableViewTask.getItems().add(newTask);
+        textArea.clear();
+    }
 
+    public void deleteTaskFromTable() {
+        ObservableList<Task> selectedTask, allTasks;
+        try {
+            allTasks = tableViewTask.getItems();
+            if (allTasks.size() != 0) {
+                selectedTask = tableViewTask.getSelectionModel().getSelectedItems();
+                selectedTask.forEach(allTasks::remove);
+            }
+        } catch (Exception e) {
+            //Table is empty, do nothng
+        }
+    }
+
+    public void cellTableEdit(TableColumn.CellEditEvent cellEditEvent) {
+        Task taskRow = tableViewTask.getSelectionModel().getSelectedItem();
+        taskRow.setTask(cellEditEvent.getNewValue().toString());
+    }
+
+    public ObservableList<Task> getTask() {
+        ObservableList<Task> taskList = FXCollections.observableArrayList();
+        taskList.add(new Task("Jutro o godzinie 12.00 spotkanie z dyrektorem w kwestii nowego projektu!!!"));
+        taskList.add(new Task("Sroda, godz 9.00. Spotkanie z klientem dotyczące zatwierdzenia zmian na drugim etapie " +
+                "wdrażanie nowego \nsystemu w firmie Anovo"));
+        return taskList;
+    }
 
     public void openTasks() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

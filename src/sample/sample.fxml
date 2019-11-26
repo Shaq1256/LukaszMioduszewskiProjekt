@@ -22,17 +22,17 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="buttonNew" disable="true" mnemonicParsing="false" prefHeight="31.0" prefWidth="91.0" text="New user" StackPane.alignment="TOP_LEFT">
+      <Button fx:id="buttonNew" disable="true" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" text="New record" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
             <Insets left="20.0" top="200.0" />
          </StackPane.margin>
       </Button>
-      <Button fx:id="buttonStats" disable="true" mnemonicParsing="false" prefHeight="31.0" prefWidth="91.0" text="Stats" StackPane.alignment="TOP_LEFT">
+      <Button fx:id="buttonStats" disable="true" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" text="Stats" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
             <Insets left="20.0" top="240.0" />
          </StackPane.margin>
       </Button>
-      <Button fx:id="buttonTasks" disable="true" mnemonicParsing="false" onAction="#openTasks" prefHeight="31.0" prefWidth="91.0" text="Tasks" StackPane.alignment="TOP_LEFT">
+      <Button fx:id="buttonTasks" disable="true" mnemonicParsing="false" onAction="#openTasks" prefHeight="31.0" prefWidth="116.0" text="Tasks" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
             <Insets left="20.0" top="280.0" />
          </StackPane.margin>
@@ -42,7 +42,7 @@
             <Insets right="20.0" top="120.0" />
          </StackPane.margin>
       </Button>
-      <TextField fx:id="textField1" maxWidth="400" minWidth="200.0" prefWidth="300.0" StackPane.alignment="TOP_CENTER">
+      <TextField fx:id="textField1" alignment="CENTER" maxWidth="300.0" minWidth="200.0" prefWidth="300.0" StackPane.alignment="TOP_CENTER">
          <StackPane.margin>
             <Insets top="60.0" />
          </StackPane.margin>
