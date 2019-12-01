@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
@@ -17,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class WindowTasks implements Initializable {
@@ -27,6 +26,8 @@ public class WindowTasks implements Initializable {
     @FXML private TableView<Task> tableViewTask;
     @FXML private TableColumn<Task, String> tasksToDo;
     @FXML TextArea textArea;
+    @FXML TextField labelTextUser;
+
 
 
     @Override
@@ -39,9 +40,21 @@ public class WindowTasks implements Initializable {
     }
 
     public void addTaskToTable() {
-        Task newTask = new Task(textArea.getText());
-        tableViewTask.getItems().add(newTask);
-        textArea.clear();
+        String textFromTextArea = textArea.getText();
+        if (!textFromTextArea.equals("")) {
+            Task newTask = new Task(textArea.getText());
+            tableViewTask.getItems().add(newTask);
+
+            String textFromTextField = "Lukasz";
+            User user1 = new User(textFromTextField);
+            Map<User, Task> taskMap = new HashMap<>();
+            taskMap.put(user1, newTask);
+            System.out.println(taskMap);
+
+            textArea.clear();
+        } else {
+            textArea.setPromptText("Type your task first.");
+        }
     }
 
     public void deleteTaskFromTable() {
@@ -81,8 +94,17 @@ public class WindowTasks implements Initializable {
         windowTask.setScene(scene);
         windowTask.show();
     }
+
+    public void setButtonTaskExit(Button buttonTaskExit) {
+
+    }
+//    public void setLabelUserName(String labelTextUserName) {
+//        labelTextUser.setText(labelTextUserName);
+//    }
+
     public void closeWindowTasks() {
         windowTask = (Stage) buttonTaskExit.getScene().getWindow();
         windowTask.close();
     }
+
 }

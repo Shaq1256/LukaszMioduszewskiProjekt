@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.javafx.collections.MappingChange;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
@@ -26,14 +29,19 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        buttonExit.setGraphic(new ImageView("sample/logout.png"));
         buttonLogout.setDisable(true);
     }
 
     public void buttonLogInClicked() {
         String textFromTexField = textField1.getText();
         if (!textFromTexField.equals("")) {
-            labelText.setText("Welcome:    " + textFromTexField);
+
+            User user1 = new User(textFromTexField);
+            Map<User, Task> taskMap = new HashMap<>();
+//            taskMap.put(user1, task);
+            System.out.println(taskMap);
+
+            labelText.setText(textFromTexField);
             textField1.setText("");
             buttonNew.setDisable(false);
             buttonStats.setDisable(false);
@@ -57,6 +65,7 @@ public class MainWindowController implements Initializable {
     public void openTasks() throws IOException {
         WindowTasks windowTasks = new WindowTasks();
         windowTasks.openTasks();
+//        windowTasks.setLabelUserName(labelText.getText());
     }
 
     public void exit() {

@@ -2,10 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.StackPane?>
+
 
 <StackPane fx:id="windowTasks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.WindowTasks">
    <children>
@@ -36,5 +38,10 @@
             <Insets left="30.0" top="100.0" />
          </StackPane.margin>
       </Button>
+      <Label fx:id="labelTextUser" contentDisplay="CENTER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Label" textAlignment="CENTER" StackPane.alignment="TOP_CENTER">
+         <StackPane.margin>
+            <Insets top="20.0" />
+         </StackPane.margin>
+      </Label>
    </children>
 </StackPane>
