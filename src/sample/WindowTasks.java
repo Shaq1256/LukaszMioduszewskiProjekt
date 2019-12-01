@@ -26,8 +26,7 @@ public class WindowTasks implements Initializable {
     @FXML private TableView<Task> tableViewTask;
     @FXML private TableColumn<Task, String> tasksToDo;
     @FXML TextArea textArea;
-    @FXML TextField labelTextUser;
-
+    @FXML Label labelTextUser;
 
 
     @Override
@@ -45,7 +44,7 @@ public class WindowTasks implements Initializable {
             Task newTask = new Task(textArea.getText());
             tableViewTask.getItems().add(newTask);
 
-            String textFromTextField = "Lukasz";
+            String textFromTextField = labelTextUser.getText();
             User user1 = new User(textFromTextField);
             Map<User, Task> taskMap = new HashMap<>();
             taskMap.put(user1, newTask);
@@ -98,9 +97,10 @@ public class WindowTasks implements Initializable {
     public void setButtonTaskExit(Button buttonTaskExit) {
 
     }
-//    public void setLabelUserName(String labelTextUserName) {
+    public void setLabelUserName(String labelTextUserName) {
+        System.out.println(labelTextUserName);
 //        labelTextUser.setText(labelTextUserName);
-//    }
+    }
 
     public void closeWindowTasks() {
         windowTask = (Stage) buttonTaskExit.getScene().getWindow();

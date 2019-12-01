@@ -36,7 +36,7 @@ public class MainWindowController implements Initializable {
         String textFromTexField = textField1.getText();
         if (!textFromTexField.equals("")) {
 
-            User user1 = new User(textFromTexField);
+//            User user1 = new User(textFromTexField);
             Map<User, Task> taskMap = new HashMap<>();
 //            taskMap.put(user1, task);
             System.out.println(taskMap);
@@ -65,7 +65,7 @@ public class MainWindowController implements Initializable {
     public void openTasks() throws IOException {
         WindowTasks windowTasks = new WindowTasks();
         windowTasks.openTasks();
-//        windowTasks.setLabelUserName(labelText.getText());
+        windowTasks.setLabelUserName(labelText.getText());
     }
 
     public void exit() {
