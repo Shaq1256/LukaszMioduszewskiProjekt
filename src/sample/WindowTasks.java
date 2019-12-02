@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -28,6 +30,7 @@ public class WindowTasks implements Initializable {
     @FXML TextArea textArea;
     @FXML Label labelTextUser;
 
+    Map<User, Task> taskMap = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,11 +47,18 @@ public class WindowTasks implements Initializable {
             Task newTask = new Task(textArea.getText());
             tableViewTask.getItems().add(newTask);
 
-            String textFromTextField = labelTextUser.getText();
-            User user1 = new User(textFromTextField);
-            Map<User, Task> taskMap = new HashMap<>();
+            String textFromLabel = labelTextUser.getText();
+            User user1 = new User(textFromLabel);
             taskMap.put(user1, newTask);
-            System.out.println(taskMap);
+
+            for (Map.Entry<User, Task> m : taskMap.entrySet()) {
+                String user = m.getKey().toString();
+                String task = m.getValue().toString();
+                System.out.println(user + " : " + task);
+            }
+
+            MainWindowController controller = new MainWindowController();
+            controller.taskMap1.putAll(taskMap);
 
             textArea.clear();
         } else {
@@ -60,6 +70,7 @@ public class WindowTasks implements Initializable {
         ObservableList<Task> selectedTask, allTasks;
         try {
             allTasks = tableViewTask.getItems();
+
             if (allTasks.size() != 0) {
                 selectedTask = tableViewTask.getSelectionModel().getSelectedItems();
                 selectedTask.forEach(allTasks::remove);
@@ -75,34 +86,33 @@ public class WindowTasks implements Initializable {
     }
 
     public ObservableList<Task> getTask() {
+
         ObservableList<Task> taskList = FXCollections.observableArrayList();
-        taskList.add(new Task("Jutro o godzinie 12.00 spotkanie z dyrektorem w kwestii nowego projektu!!!"));
-        taskList.add(new Task("Sroda, godz 9.00. Spotkanie z klientem dotyczące zatwierdzenia zmian na drugim etapie " +
-                "wdrażanie nowego \nsystemu w firmie Anovo"));
         return taskList;
     }
 
-    public void openTasks() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("windowTasks.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        windowTask = new Stage();
-        windowTask.setTitle("Tasks");
-        windowTask.initModality(Modality.APPLICATION_MODAL);
-        windowTask.setResizable(false);
-        windowTask.setScene(scene);
-        windowTask.show();
-    }
+//    public void openTasks() throws IOException {
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        fxmlLoader.setLocation(getClass().getResource("windowTasks.fxml"));
+//
+//        Scene scene = new Scene(fxmlLoader.load());
+//        windowTask = new Stage();
+//        windowTask.setTitle("Tasks");
+//        windowTask.initModality(Modality.APPLICATION_MODAL);
+//        windowTask.setResizable(false);
+//        windowTask.setScene(scene);
+//        windowTask.show();
+//    }
 
-    public void setButtonTaskExit(Button buttonTaskExit) {
-
-    }
     public void setLabelUserName(String labelTextUserName) {
         System.out.println(labelTextUserName);
-//        labelTextUser.setText(labelTextUserName);
+        labelTextUser.setText(labelTextUserName);
+
     }
 
     public void closeWindowTasks() {
+
+
         windowTask = (Stage) buttonTaskExit.getScene().getWindow();
         windowTask.close();
     }

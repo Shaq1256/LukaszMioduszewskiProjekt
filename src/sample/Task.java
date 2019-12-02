@@ -20,4 +20,9 @@ public class Task {
     public void setTask(String task) {
         this.task.set(task);
     }
+
+    @Override
+    public String toString() {
+        return "Task =" + task ;
+    }
 }

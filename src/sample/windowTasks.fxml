@@ -37,7 +37,7 @@
             <Insets left="30.0" top="100.0" />
          </StackPane.margin>
       </Button>
-      <Label fx:id="labelTextUser" contentDisplay="CENTER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" textAlignment="CENTER" StackPane.alignment="TOP_CENTER">
+      <Label fx:id="labelTextUser" contentDisplay="CENTER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Martix" textAlignment="CENTER" StackPane.alignment="TOP_CENTER">
          <StackPane.margin>
             <Insets top="20.0" />
          </StackPane.margin>
