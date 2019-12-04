@@ -1,20 +1,16 @@
 package sample;
 
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,13 +20,14 @@ public class WindowTasks implements Initializable {
 
     Stage windowTask;
 
-    @FXML Button buttonTaskExit, buttonNewTask, buttonDeleteTask;
+    @FXML Button buttonTaskExit, buttonNewTask, buttonDeleteTask, buttonSave;
     @FXML private TableView<Task> tableViewTask;
     @FXML private TableColumn<Task, String> tasksToDo;
     @FXML TextArea textArea;
     @FXML Label labelTextUser;
 
-    Map<User, Task> taskMap = new HashMap<>();
+    public Map<User, Task> taskMap = new HashMap<>();
+    Task value;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,6 +36,8 @@ public class WindowTasks implements Initializable {
 
         tableViewTask.setEditable(true);
         tasksToDo.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        getClickedTask();
     }
 
     public void addTaskToTable() {
@@ -57,27 +56,45 @@ public class WindowTasks implements Initializable {
                 System.out.println(user + " : " + task);
             }
 
-            MainWindowController controller = new MainWindowController();
-            controller.taskMap1.putAll(taskMap);
-
             textArea.clear();
         } else {
             textArea.setPromptText("Type your task first.");
         }
+    }
+    public void getClickedTask() {
+        tableViewTask.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() > 0) {
+                    value = tableViewTask.getSelectionModel().getSelectedItem();
+                }
+            }
+        });
     }
 
     public void deleteTaskFromTable() {
         ObservableList<Task> selectedTask, allTasks;
         try {
             allTasks = tableViewTask.getItems();
-
             if (allTasks.size() != 0) {
                 selectedTask = tableViewTask.getSelectionModel().getSelectedItems();
                 selectedTask.forEach(allTasks::remove);
+                taskMap.values().remove(value);
+                System.out.println(taskMap.size());
             }
         } catch (Exception e) {
             //Table is empty, do nothng
         }
+    }
+
+    public void saveMap() {
+        MainWindowController controller = new MainWindowController();
+//        controller.taskMap1.putAll(taskMap);
+//        HashMap<User, Task> cloneMap = (HashMap<User, Task>) taskMap.replaceAll();
+        controller.passMap(taskMap);
+
+        System.out.println("taskMap1 :  " + controller.taskMap1.size());
+        System.out.println("taskMap :  " + taskMap.size());
     }
 
     public void cellTableEdit(TableColumn.CellEditEvent cellEditEvent) {
