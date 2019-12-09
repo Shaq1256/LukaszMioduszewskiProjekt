@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -26,7 +27,7 @@ public class MainWindowController implements Initializable {
     @FXML
     TextField textField1;
 
-    Map<User, Task> taskMap1 = new HashMap<>();
+    Map<User, List<Task>> taskMap1 = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,6 +65,8 @@ public class MainWindowController implements Initializable {
         StackPane stackPane = fxmlLoader.load(getClass().getResource("windowTasks.fxml").openStream());
         WindowTasks controller = (WindowTasks) fxmlLoader.getController();
         controller.setLabelUserName(labelText.getText());
+        controller.setTasks(taskMap1);
+        controller.setParent(this);
 
         Scene scene = new Scene(stackPane);
         pStage = new Stage();
@@ -74,10 +77,11 @@ public class MainWindowController implements Initializable {
         pStage.show();
 
     }
-    public void passMap(Map<User, Task> newMap) {
+    public void passMap(Map<User, List<Task>> newMap) {
         taskMap1.putAll(newMap);
+        }
 
-    }
+
 
     public void exit() {
         Platform.exit();

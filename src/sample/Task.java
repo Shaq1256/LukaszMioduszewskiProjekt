@@ -25,4 +25,19 @@ public class Task {
     public String toString() {
         return "Task =" + task ;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task1 = (Task) o;
+
+        return task.equals(task1.task);
+    }
+
+    @Override
+    public int hashCode() {
+        return task.hashCode();
+    }
 }
