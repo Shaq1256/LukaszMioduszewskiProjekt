@@ -12,10 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class WindowTasks implements Initializable {
 
@@ -29,7 +26,7 @@ public class WindowTasks implements Initializable {
     @FXML Label labelTextUser;
 
     public Map<User, List<Task>> taskMap = new HashMap<>();
-    List<Task> taskList;
+    public List<Task> taskList = new ArrayList<>();
     Task value;
 
     @Override
@@ -44,6 +41,7 @@ public class WindowTasks implements Initializable {
     }
 
     public void addTaskToTable() {
+
         String textFromTextArea = textArea.getText();
         if (!textFromTextArea.equals("")) {
             Task newTask = new Task(textFromTextArea);
@@ -78,8 +76,7 @@ public class WindowTasks implements Initializable {
     }
 
     public void deleteTaskFromTable() {
-        ObservableList<List<Task>> selectedTask;
-        ObservableList<List<Task>> allTasks;
+        ObservableList<List<Task>> selectedTask, allTasks;
         try {
             allTasks = tableViewTask.getItems();
             if (allTasks.size() != 0) {
