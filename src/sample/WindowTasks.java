@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 
 public class WindowTasks implements Initializable {
@@ -20,9 +21,10 @@ public class WindowTasks implements Initializable {
     Stage windowTask;
     MainWindowController controller;
 
-    @FXML Button buttonTaskExit, buttonNewTask, buttonDeleteTask, buttonSave, buttonEdit;
+    @FXML Button buttonTaskExit, buttonNewTask, buttonDeleteTask, buttonEdit;
+    @FXML DatePicker deadLineDatePicker;
     @FXML private TableView<Task> tableViewTask;
-    @FXML private TableColumn<Task, String> tasksToDo, status;
+    @FXML private TableColumn<Task, String> tasksToDo, status, deadLineTask;
     @FXML TextArea textArea;
     @FXML TextField textFieldStatus;
     @FXML Label labelTextUser;
@@ -36,11 +38,14 @@ public class WindowTasks implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tasksToDo.setCellValueFactory(new PropertyValueFactory<Task, String>("task"));
         status.setCellValueFactory(new PropertyValueFactory<Task, String>("taskStatus"));
+        deadLineTask.setCellValueFactory(new PropertyValueFactory<Task, String>("deadLineTask"));
         tableViewTask.setItems(getTask());
 
         tableViewTask.setEditable(true);
         tasksToDo.setCellFactory(TextFieldTableCell.forTableColumn());
         status.setCellFactory(TextFieldTableCell.forTableColumn());
+        deadLineTask.setCellFactory(TextFieldTableCell.forTableColumn());
+        deadLineDatePicker.setValue(LocalDate.now());
 
         getClickedTask();
     }
@@ -49,8 +54,9 @@ public class WindowTasks implements Initializable {
 
         String textFromTextArea = textArea.getText();
         String textFromTextFieldStatus = textFieldStatus.getText();
+        LocalDate deadLineDate = deadLineDatePicker.getValue();
         if (!textFromTextArea.equals("") && !textFromTextFieldStatus.equals("")) {
-            Task newTask = new Task(textFromTextArea, textFromTextFieldStatus);
+            Task newTask = new Task(textFromTextArea, textFromTextFieldStatus, deadLineDate.toString());
             taskList.add(newTask);
 
             String textFromLabel = labelTextUser.getText();
@@ -66,6 +72,7 @@ public class WindowTasks implements Initializable {
             tableViewTask.setItems(getTask());
             textArea.clear();
             textFieldStatus.clear();
+            deadLineDatePicker.setValue(LocalDate.now());
         } else {
             textArea.setPromptText("Type your task first.");
         }
@@ -89,22 +96,12 @@ public class WindowTasks implements Initializable {
             if (allTasks.size() != 0) {
                 selectedTask = tableViewTask.getSelectionModel().getSelectedItems();
                 selectedTask.forEach(allTasks::remove);
-                taskMap.values().remove(value);
+                taskMap.values().remove(selectedTask);
                 System.out.println(taskMap.size());
             }
         } catch (Exception e) {
             //Table is empty, do nothing
         }
-    }
-
-    public void saveMap() {
-//        MainWindowController controller = new MainWindowController();
-//        controller.taskMap1.putAll(taskMap);
-//        HashMap<User, Task> cloneMap = (HashMap<User, Task>) taskMap.replaceAll();
-        controller.passMap(taskMap);
-
-        System.out.println("taskMap1 :  " + controller.taskMap1.size());
-        System.out.println("taskMap :  " + taskMap.size());
     }
 
     public void cellTableEdit(TableColumn.CellEditEvent cellEditEvent) {
@@ -117,15 +114,24 @@ public class WindowTasks implements Initializable {
         tableToEdit = tableViewTask;
         textArea.setText(taskToEdit.getTask());
         textFieldStatus.setText(taskToEdit.getTaskStatus());
+        LocalDate localDate = LocalDate.parse(taskToEdit.getDeadLineTask());
+        deadLineDatePicker.setValue(localDate);
+        buttonNewTask.setDisable(true);
+        buttonEdit.setDisable(true);
+        buttonDeleteTask.setDisable(true);
 
     }
     public void saveEditedTask() {
         int selectedRow = tableViewTask.getSelectionModel().getSelectedIndex();
         tableToEdit.getItems().get(selectedRow).setTask(textArea.getText());
         tableToEdit.getItems().get(selectedRow).setTaskStatus(textFieldStatus.getText());
+        tableToEdit.getItems().get(selectedRow).setDeadLineTask(deadLineDatePicker.getValue().toString());
         tableToEdit.refresh();
         textArea.setText("");
         textFieldStatus.setText("");
+        buttonNewTask.setDisable(false);
+        buttonEdit.setDisable(false);
+        buttonDeleteTask.setDisable(false);
     }
 
     public ObservableList<Task> getTask() {
@@ -153,6 +159,7 @@ public class WindowTasks implements Initializable {
     }
 
     public void closeWindowTasks() {
+
         windowTask = (Stage) buttonTaskExit.getScene().getWindow();
         windowTask.close();
     }

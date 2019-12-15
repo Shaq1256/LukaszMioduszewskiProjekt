@@ -1,15 +1,25 @@
 package sample;
 
-import javafx.beans.property.SimpleStringProperty;
+import java.time.LocalDate;
 
 public class Task {
     private String task;
 //    private SimpleStringProperty taskStatus;
     private String taskStatus;
+    private String deadLineTask;
 
-    public Task(String task, String taskStatus) {
+    public Task(String task, String taskStatus, String deadLineTask) {
         this.task = task;
         this.taskStatus = taskStatus;
+        this.deadLineTask = deadLineTask;
+    }
+
+    public String getDeadLineTask() {
+        return deadLineTask;
+    }
+
+    public void setDeadLineTask(String deadLineTask) {
+        this.deadLineTask = deadLineTask;
     }
 
     public String getTask() {
@@ -33,6 +43,7 @@ public class Task {
         return "Task{" +
                 "task='" + task + '\'' +
                 ", taskStatus='" + taskStatus + '\'' +
+                ", deadLineTask=" + deadLineTask +
                 '}';
     }
 
