@@ -21,7 +21,8 @@
         <columns>
           <TableColumn fx:id="tasksToDo" onEditCommit="#cellTableEdit" prefWidth="382.0" text="Tasks to do" />
             <TableColumn fx:id="status" maxWidth="2000.0" onEditCommit="#cellTableEdit" prefWidth="361.0" text="Status" />
-            <TableColumn fx:id="deadLineTask" maxWidth="1500.0" prefWidth="70.0" text="Data" />
+            <TableColumn fx:id="deadLineTask" maxWidth="1200.0" prefWidth="70.0" text="Data" />
+            <TableColumn fx:id="userTaskList" maxWidth="1200.0" prefWidth="75.0" text="User" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

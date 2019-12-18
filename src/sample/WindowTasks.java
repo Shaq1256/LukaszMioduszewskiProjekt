@@ -21,13 +21,22 @@ public class WindowTasks implements Initializable {
     Stage windowTask;
     MainWindowController controller;
 
-    @FXML Button buttonTaskExit, buttonNewTask, buttonDeleteTask, buttonEdit;
-    @FXML DatePicker deadLineDatePicker;
-    @FXML private TableView<Task> tableViewTask;
-    @FXML private TableColumn<Task, String> tasksToDo, status, deadLineTask;
-    @FXML TextArea textArea;
-    @FXML TextField textFieldStatus;
-    @FXML Label labelTextUser;
+    @FXML
+    Button buttonTaskExit, buttonNewTask, buttonDeleteTask, buttonEdit;
+    @FXML
+    DatePicker deadLineDatePicker;
+    @FXML
+    private TableView<Task> tableViewTask;
+    @FXML
+    private TableColumn<Task, String> tasksToDo, status, deadLineTask;
+    @FXML
+    private TableColumn<User, String> userTaskList;
+    @FXML
+    TextArea textArea;
+    @FXML
+    TextField textFieldStatus;
+    @FXML
+    Label labelTextUser;
 
     public Map<User, List<Task>> taskMap = new HashMap<>();
     public List<Task> taskList = new ArrayList<>();
@@ -39,12 +48,14 @@ public class WindowTasks implements Initializable {
         tasksToDo.setCellValueFactory(new PropertyValueFactory<Task, String>("task"));
         status.setCellValueFactory(new PropertyValueFactory<Task, String>("taskStatus"));
         deadLineTask.setCellValueFactory(new PropertyValueFactory<Task, String>("deadLineTask"));
+        userTaskList.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
         tableViewTask.setItems(getTask());
 
         tableViewTask.setEditable(true);
         tasksToDo.setCellFactory(TextFieldTableCell.forTableColumn());
         status.setCellFactory(TextFieldTableCell.forTableColumn());
         deadLineTask.setCellFactory(TextFieldTableCell.forTableColumn());
+        userTaskList.setCellFactory(TextFieldTableCell.forTableColumn());
         deadLineDatePicker.setValue(LocalDate.now());
 
         getClickedTask();
@@ -55,6 +66,7 @@ public class WindowTasks implements Initializable {
         String textFromTextArea = textArea.getText();
         String textFromTextFieldStatus = textFieldStatus.getText();
         LocalDate deadLineDate = deadLineDatePicker.getValue();
+
         if (!textFromTextArea.equals("") && !textFromTextFieldStatus.equals("")) {
             Task newTask = new Task(textFromTextArea, textFromTextFieldStatus, deadLineDate.toString());
             taskList.add(newTask);
@@ -63,6 +75,7 @@ public class WindowTasks implements Initializable {
             User user1 = new User(textFromLabel);
             taskMap.put(user1, taskList);
 
+
             for (Map.Entry<User, List<Task>> m : taskMap.entrySet()) {
                 String user = m.getKey().toString();
                 String task = m.getValue().toString();
@@ -70,9 +83,11 @@ public class WindowTasks implements Initializable {
             }
 
             tableViewTask.setItems(getTask());
+
             textArea.clear();
             textFieldStatus.clear();
             deadLineDatePicker.setValue(LocalDate.now());
+
         } else {
             textArea.setPromptText("Type your task first.");
         }
@@ -110,6 +125,7 @@ public class WindowTasks implements Initializable {
     }
 
     public void tasksEditor() {
+
         Task taskToEdit = tableViewTask.getSelectionModel().getSelectedItem();
         tableToEdit = tableViewTask;
         textArea.setText(taskToEdit.getTask());
@@ -121,6 +137,7 @@ public class WindowTasks implements Initializable {
         buttonDeleteTask.setDisable(true);
 
     }
+
     public void saveEditedTask() {
         int selectedRow = tableViewTask.getSelectionModel().getSelectedIndex();
         tableToEdit.getItems().get(selectedRow).setTask(textArea.getText());
@@ -139,7 +156,7 @@ public class WindowTasks implements Initializable {
         ObservableList<Task> taskList = FXCollections.observableArrayList();
         List<Task> savedTasks = taskMap.get(new User(labelTextUser.getText()));
         if (savedTasks != null && savedTasks.size() > 0) {
-            for(Task task : savedTasks) {
+            for (Task task : savedTasks) {
                 taskList.add(task);
             }
         }
